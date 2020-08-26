@@ -1,6 +1,10 @@
 {
   "packageDirectories": [
     {
+      "path": "es-base-code",
+      "default": false
+    },
+    {
       "path": "es-base-objects",
       "default": false
     },
@@ -9,7 +13,7 @@
       "default": false
     },
     {
-      "path": "es-base-mgmt",
+      "path": "es-space-mgmt",
       "default": true
     }
   ],

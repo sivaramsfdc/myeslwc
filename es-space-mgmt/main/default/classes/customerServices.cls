@@ -1,12 +1,37 @@
 public inherited sharing class customerServices {
-    
+    @auraEnabled(cacheable=true)
+    public static Customer getCustomerFields(String objectType) {
+        Customer customer;
+        for (Customer_Fields__mdt c : [
+            SELECT
+                Customer_Name__r.QualifiedAPIName,
+                Customer_Email__r.QualifiedAPIName,
+                Customer_City__c,
+                Customer_State__c,
+                Customer_Status__r.QualifiedAPIName
+            FROM Customer_Fields__mdt
+            WHERE Sobject_Type__r.QualifiedAPIName = :objectType
+            WITH SECURITY_ENFORCED
+        ]) {
+            customer = new Customer(
+                c.Customer_Name__r.QualifiedAPIName,
+                c.Customer_Email__r.QualifiedAPIName,
+                c.Customer_City__c,
+                c.Customer_State__c,
+                '',
+                ''
+            );
+        }
+        return customer;
+    }
+
     public class Customer {
         //attributes that we associate with customers
         @auraEnabled
-        public String email { get; set; }
+        public String name { get; set; }
 
         @auraEnabled
-        public String name { get; set; }
+        public String email { get; set; }
 
         @auraEnabled
         public String city { get; set; }
@@ -40,7 +65,6 @@ public inherited sharing class customerServices {
                 this.status = status;
             if (String.isNotEmpty(custId))
                 this.Id = custId;
-        } 
-        
+        }
     }
 }
